@@ -652,6 +652,34 @@ module IPAddress;
     end
 
     #
+    # Determine if this IPv4 address is
+    # a loopback address.
+    #
+    # Example:
+    #
+    #   address = IPAddress '127.0.0.1'
+    #   address.loopback?
+    #     #= true
+    #
+    def loopback?
+      return IPAddress::IPv4.loopback?(self)
+    end
+
+    #
+    # Determine if this IPv4 address is
+    # a private address.
+    #
+    # Example:
+    #
+    #   address = IPAddress '192.168.101.5'
+    #   address.private?
+    #     #=> true
+    #
+    def private?
+      return IPAddress::IPv4.private?(self)
+    end
+
+    #
     # Return the ip address in a format compatible
     # with the IPv6 Mapped IPv4 addresses
     # 
@@ -802,6 +830,46 @@ module IPAddress;
       else
         return self.summarize(*result)
       end
+    end
+
+    #
+    # Determine if an IPv4 address is
+    # a loopback address.
+    #
+    # Example:
+    #
+    #   loop = IPAddress '127.0.0.1'
+    #   IPAddress::IPv4.loopback?(loop)
+    #     #=> true
+    #
+    def self.loopback?(addr)
+      loopback_network = IPAddress::IPv4.new('127.0.0.0/8')
+      return loopback_network.include?(addr)
+    end
+
+    #
+    # Determine if an IPv4 address is
+    # a private address.
+    #
+    # Example:
+    #
+    #   private = IPAddress '192.168.101.5'
+    #   public  = IPAddress '212.78.44.55'
+    #   IPAddress::IPv4.private?(private)
+    #     #=> true
+    #   IPAddress::IPv4.private?(public)
+    #     #=> false
+    #
+    def self.private?(addr)
+      private_networks = [ IPAddress::IPv4.new('10.0.0.0/8'),
+                           IPAddress::IPv4.new('172.16.0.0/12'),
+                           IPAddress::IPv4.new('192.168.0.0/16') ]
+
+      private_networks.each do |network|
+        return true if network.include?(addr)
+      end
+
+      return false
     end
 
     #
