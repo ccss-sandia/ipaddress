@@ -1,3 +1,7 @@
+= GOALS OF THIS FORK
+
+Implement 'private' and 'loopback' functions for IPAddress::IPv4.
+
 = IPAddress
 
 IPAddress is a Ruby library designed to make the use of IPv4 and IPv6
