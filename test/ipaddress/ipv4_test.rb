@@ -51,11 +51,11 @@ class IPv4Test < Test::Unit::TestCase
     @class_b = @klass.new("172.16.0.1/16")
     @class_c = @klass.new("192.168.0.1/24")
 
-    @valid_loopback   = @klass.new('127.0.0.1')
-    @invalid_loopback = @klass.new('10.0.0.1')
+    @valid_loopback   = '127.0.0.1'
+    @invalid_loopback = '10.0.0.1'
 
-    @valid_private   = @klass.new('10.0.0.1')
-    @invalid_private = @klass.new('212.78.44.55')
+    @valid_private   = '10.0.0.1'
+    @invalid_private = '212.78.44.55'
     
   end
 
@@ -394,17 +394,17 @@ class IPv4Test < Test::Unit::TestCase
   end
 
   def test_loopback_address
-    assert_equal true,  IPAddress::IPv4.loopback?(@valid_loopback)
-    assert_equal true,  @valid_loopback.loopback?
-    assert_equal false, IPAddress::IPv4.loopback?(@invalid_loopback)
-    assert_equal false, @invalid_loopback.loopback?
+    assert_equal true,  @klass.loopback?(@valid_loopback)
+    assert_equal true,  @klass.new(@valid_loopback).loopback?
+    assert_equal false, @klass.loopback?(@invalid_loopback)
+    assert_equal false, @klass.new(@invalid_loopback).loopback?
   end
 
   def test_private_address
-    assert_equal true,  IPAddress::IPv4.private?(@valid_private)
-    assert_equal true,  @valid_private.private?
-    assert_equal false, IPAddress::IPv4.private?(@invalid_private)
-    assert_equal false, @invalid_private.private?
+    assert_equal true,  @klass.private?(@valid_private)
+    assert_equal true,  @klass.new(@valid_private).private?
+    assert_equal false, @klass.private?(@invalid_private)
+    assert_equal false, @klass.new(@invalid_private).private?
   end
   
 end # class IPv4Test
